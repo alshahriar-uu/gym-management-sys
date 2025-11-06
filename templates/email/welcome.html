@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to GymFit Bangladesh</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f6fa;
+        }
+        .email-container {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .content h2 {
+            color: #667eea;
+            margin-top: 0;
+        }
+        .info-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px 20px;
+            margin: 20px 0;
+        }
+        .footer {
+            background: #f8f9fa;
+            padding: 20px 30px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1>🏋️ Welcome to GymFit Bangladesh!</h1>
+        </div>
+        <div class="content">
+            <h2>Thank You for Registering!</h2>
+            <p>Dear {{ first_name }} {{ last_name }},</p>
+            <p>Thank you for choosing GymFit Bangladesh for your fitness journey! We're excited to have you join our community.</p>
+            
+            <div class="info-box">
+                <strong>📋 Registration Details:</strong><br>
+                Registration ID: <strong>{{ registration_id }}</strong><br>
+                Membership Plan: <strong>{{ membership_type }}</strong><br>
+                Registration Date: <strong>{{ registration_date }}</strong>
+            </div>
+            
+            <p>Your registration is currently <strong>pending approval</strong> from our admin team. You will receive another email with your login credentials once your registration is approved.</p>
+            
+            <p>This process typically takes 24-48 hours. If you have any questions, please don't hesitate to contact us.</p>
+            
+            <p>Best regards,<br>
+            <strong>GymFit Bangladesh Team</strong></p>
+        </div>
+        <div class="footer">
+            <p>© {{ year }} GymFit Bangladesh. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

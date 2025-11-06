@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membership Expiry Reminder - GymFit Bangladesh</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f6fa;
+        }
+        .email-container {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #ff9800 0%, #ff6f00 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .content h2 {
+            color: #ff9800;
+            margin-top: 0;
+        }
+        .expiry-box {
+            background: #fff3e0;
+            border: 2px solid #ff9800;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .expiry-box strong {
+            color: #e65100;
+            font-size: 18px;
+        }
+        .info-box {
+            background: #f8f9fa;
+            border-left: 4px solid #ff9800;
+            padding: 15px 20px;
+            margin: 20px 0;
+        }
+        .footer {
+            background: #f8f9fa;
+            padding: 20px 30px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #ff9800 0%, #ff6f00 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1>⏰ Membership Expiry Reminder</h1>
+        </div>
+        <div class="content">
+            <h2>Your Membership is Expiring Soon!</h2>
+            <p>Dear {{ first_name }} {{ last_name }},</p>
+            <p>This is a friendly reminder that your GymFit Bangladesh membership will expire soon.</p>
+            
+            <div class="expiry-box">
+                <p>Your membership expires on:</p>
+                <strong>{{ expiry_date }}</strong>
+            </div>
+            
+            <div class="info-box">
+                <strong>📋 Current Membership Details:</strong><br>
+                Member ID: <strong>{{ member_id }}</strong><br>
+                Membership Plan: <strong>{{ membership_type }}</strong><br>
+                Join Date: <strong>{{ join_date }}</strong><br>
+                Days Remaining: <strong>{{ days_remaining }}</strong>
+            </div>
+            
+            <p>Don't miss out on your fitness journey! Renew your membership today to continue enjoying:</p>
+            <ul>
+                <li>✓ Access to all gym facilities</li>
+                <li>✓ Professional trainer guidance</li>
+                <li>✓ Group fitness classes</li>
+                <li>✓ Health and wellness programs</li>
+            </ul>
+            
+            <a href="{{ renewal_url }}" class="btn">Renew Membership</a>
+            
+            <p>If you have any questions about renewal or need assistance, please contact our support team.</p>
+            
+            <p>Best regards,<br>
+            <strong>GymFit Bangladesh Team</strong></p>
+        </div>
+        <div class="footer">
+            <p>© {{ year }} GymFit Bangladesh. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
