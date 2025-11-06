@@ -141,6 +141,7 @@
         {% endif %}
         
         <form method="POST" action="{{ url_for('login') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="form-group">
                 <label for="username"><i class="fas fa-user"></i> Username</label>
                 <input type="text" id="username" name="username" placeholder="Enter your username" required>
@@ -164,6 +165,10 @@
                 <i class="fas fa-sign-in-alt"></i> LOGIN NOW
             </button>
         </form>
+        
+        <div class="back-link" style="margin-bottom: 15px;">
+            <a href="{{ url_for('forgot_password') }}"><i class="fas fa-key"></i> Forgot Password?</a>
+        </div>
         
         <div class="demo-info">
             <strong>Demo Accounts (For Testing):</strong>

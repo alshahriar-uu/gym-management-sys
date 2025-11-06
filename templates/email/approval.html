@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Approved - GymFit Bangladesh</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f6fa;
+        }
+        .email-container {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #00d2d3 0%, #00a8a9 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .content h2 {
+            color: #00d2d3;
+            margin-top: 0;
+        }
+        .info-box {
+            background: #f8f9fa;
+            border-left: 4px solid #00d2d3;
+            padding: 15px 20px;
+            margin: 20px 0;
+        }
+        .credentials-box {
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .credentials-box strong {
+            color: #2e7d32;
+        }
+        .footer {
+            background: #f8f9fa;
+            padding: 20px 30px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #00d2d3 0%, #00a8a9 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1>🎉 Congratulations! Your Registration is Approved!</h1>
+        </div>
+        <div class="content">
+            <h2>Welcome to GymFit Bangladesh!</h2>
+            <p>Dear {{ first_name }} {{ last_name }},</p>
+            <p>Great news! Your membership registration has been approved. You can now access your GymFit Bangladesh member account.</p>
+            
+            <div class="info-box">
+                <strong>📋 Membership Details:</strong><br>
+                Member ID: <strong>{{ member_id }}</strong><br>
+                Membership Plan: <strong>{{ membership_type }}</strong><br>
+                Join Date: <strong>{{ join_date }}</strong><br>
+                Expiry Date: <strong>{{ expiry_date }}</strong><br>
+                Amount: <strong>৳{{ amount }}</strong>
+            </div>
+            
+            <div class="credentials-box">
+                <strong>🔐 Your Login Credentials:</strong><br><br>
+                Username: <strong>{{ username }}</strong><br>
+                Password: <strong>{{ password }}</strong><br>
+                Login URL: <strong>{{ login_url }}</strong>
+            </div>
+            
+            <p><strong>⚠️ Important:</strong> Please change your password after your first login for security purposes.</p>
+            
+            <a href="{{ login_url }}" class="btn">Login Now</a>
+            
+            <p>We're excited to support you on your fitness journey! If you have any questions, feel free to contact our support team.</p>
+            
+            <p>Best regards,<br>
+            <strong>GymFit Bangladesh Team</strong></p>
+        </div>
+        <div class="footer">
+            <p>© {{ year }} GymFit Bangladesh. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
