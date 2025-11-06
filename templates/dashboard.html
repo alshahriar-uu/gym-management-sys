@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - GymFit Bangladesh</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Dashboard Specific Styles */
+        .dashboard-wrapper {
+            display: flex;
+            min-height: 100vh;
+            background: #f5f6fa;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .sidebar-logo {
+            padding: 25px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-logo i {
+            font-size: 32px;
+            color: #FFA502;
+        }
+
+        .sidebar-logo span {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .sidebar-logo strong {
+            color: #FFA502;
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .menu-section {
+            margin-bottom: 30px;
+        }
+
+        .menu-title {
+            padding: 0 20px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            opacity: 0.6;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 14px 20px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+
+        .sidebar-menu a.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: #FFA502;
+        }
+
+        .sidebar-menu a i {
+            font-size: 18px;
+            width: 20px;
+        }
+
+        .sidebar-footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #FFA502;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .user-info h4 {
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+
+        .user-info span {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 30px;
+        }
+
+        /* Top Bar */
+        .topbar {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .topbar-left h1 {
+            font-size: 28px;
+            color: #1e1e1e;
+            margin-bottom: 5px;
+        }
+
+        .topbar-left p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .topbar-right {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .topbar-icon {
+            width: 45px;
+            height: 45px;
+            background: #f5f6fa;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .topbar-icon:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .topbar-icon .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 20px;
+            height: 20px;
+            background: #ff4757;
+            border-radius: 50%;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            width: 65px;
+            height: 65px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: white;
+        }
+
+        .stat-icon.purple { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .stat-icon.green { background: linear-gradient(135deg, #00d2d3, #00a8a9); }
+        .stat-icon.orange { background: linear-gradient(135deg, #FFA502, #ff6348); }
+        .stat-icon.blue { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+
+        .stat-details h3 {
+            font-size: 32px;
+            color: #1e1e1e;
+            margin-bottom: 5px;
+        }
+
+        .stat-details p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .stat-change {
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        .stat-change.up {
+            color: #00d2d3;
+        }
+
+        .stat-change.down {
+            color: #ff4757;
+        }
+
+        /* Charts Grid */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .chart-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .chart-header h3 {
+            font-size: 18px;
+            color: #1e1e1e;
+        }
+
+        .chart-filter {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            padding: 6px 15px;
+            border: 1px solid #e0e0e0;
+            background: white;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .chart-placeholder {
+            height: 280px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 14px;
+        }
+
+        /* Activity List */
+        .activity-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .activity-icon.join { background: #e8f5e9; color: #4caf50; }
+        .activity-icon.payment { background: #fff3e0; color: #ff9800; }
+        .activity-icon.expire { background: #ffebee; color: #f44336; }
+
+        .activity-details {
+            flex: 1;
+        }
+
+        .activity-details h4 {
+            font-size: 14px;
+            color: #1e1e1e;
+            margin-bottom: 3px;
+        }
+
+        .activity-details p {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .activity-time {
+            font-size: 12px;
+            color: #999;
+            white-space: nowrap;
+        }
+
+        /* Table */
+        .table-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .table-header h3 {
+            font-size: 18px;
+            color: #1e1e1e;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            padding: 10px 15px 10px 40px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            width: 250px;
+            font-size: 14px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f8f9fa;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-badge.active { background: #e8f5e9; color: #4caf50; }
+        .status-badge.pending { background: #fff3e0; color: #ff9800; }
+        .status-badge.expired { background: #ffebee; color: #f44336; }
+
+        .action-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 14px;
+        }
+
+        .action-btn.edit {
+            background: #e3f2fd;
+            color: #2196f3;
+        }
+
+        .action-btn.delete {
+            background: #ffebee;
+            color: #f44336;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Mobile Toggle */
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                left: -260px;
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .mobile-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .search-box input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <i class="fas fa-dumbbell"></i>
+                <span>GYM<strong>FIT</strong></span>
+            </div>
+
+            <nav class="sidebar-menu">
+                <div class="menu-section">
+                    <div class="menu-title">MAIN MENU</div>
+                    <a href="{{ url_for('dashboard') }}" class="active">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="{{ url_for('members') }}">
+                        <i class="fas fa-users"></i>
+                        <span>Members</span>
+                    </a>
+                    <a href="{{ url_for('trainers') }}">
+                        <i class="fas fa-user-tie"></i>
+                        <span>Trainers</span>
+                    </a>
+                    <a href="{{ url_for('classes') }}">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Classes</span>
+                    </a>
+                    <a href="{{ url_for('pending_registrations') }}" style="position: relative;">
+                        <i class="fas fa-clock"></i>
+                        <span>Pending Registrations</span>
+                        {% if pending_count and pending_count > 0 %}
+                        <span style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); background: #ff4757; color: white; padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: 700;">
+                            {{ pending_count }}
+                        </span>
+                        {% endif %}
+                    </a>
+                </div>
+
+                <div class="menu-section">
+                    <div class="menu-title">MANAGEMENT</div>
+                    <a href="#">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Payments</span>
+                    </a>
+                    <a href="#">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Reports</span>
+                    </a>
+                    <a href="#">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="user-avatar">{{ username[0].upper() if username else 'A' }}</div>
+                    <div class="user-info">
+                        <h4>{{ username or 'Al Shahriar' }}</h4>
+                        <span>Administrator</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <h1>Dashboard</h1>
+                    <p>Welcome back, {{ username or 'Al Shahriar' }}! Here's what's happening today.</p>
+                </div>
+                <div class="topbar-right">
+                    <div class="topbar-icon">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
+                    </div>
+                    <div class="topbar-icon">
+                        <i class="fas fa-envelope"></i>
+                        <span class="badge">5</span>
+                    </div>
+                    <a href="{{ url_for('logout') }}" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </a>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon purple">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>524</h3>
+                        <p>Total Members</p>
+                        <span class="stat-change up"><i class="fas fa-arrow-up"></i> +12% this month</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon green">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>398</h3>
+                        <p>Active Members</p>
+                        <span class="stat-change up"><i class="fas fa-arrow-up"></i> +8% this month</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon orange">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>৳ 2,45,000</h3>
+                        <p>Monthly Revenue</p>
+                        <span class="stat-change up"><i class="fas fa-arrow-up"></i> +15% this month</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon blue">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>18</h3>
+                        <p>Active Trainers</p>
+                        <span class="stat-change up"><i class="fas fa-arrow-up"></i> +2 new</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Grid -->
+            <div class="charts-grid">
+                <!-- Revenue Chart -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-chart-line"></i> Revenue Overview</h3>
+                        <div class="chart-filter">
+                            <button class="filter-btn active">Week</button>
+                            <button class="filter-btn">Month</button>
+                            <button class="filter-btn">Year</button>
+                        </div>
+                    </div>
+                    <div class="chart-placeholder">
+                        <i class="fas fa-chart-area" style="font-size: 48px; color: #ddd;"></i>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-history"></i> Recent Activity</h3>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon join">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <div class="activity-details">
+                            <h4>New Member Joined</h4>
+                            <p>Rakib Hassan joined Annual Plan</p>
+                        </div>
+                        <div class="activity-time">2h ago</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon payment">
+                            <i class="fas fa-money-bill"></i>
+                        </div>
+                        <div class="activity-details">
+                            <h4>Payment Received</h4>
+                            <p>৳ 4,500 from Nusrat Jahan</p>
+                        </div>
+                        <div class="activity-time">4h ago</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon join">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="activity-details">
+                            <h4>Class Scheduled</h4>
+                            <p>Yoga class added for tomorrow</p>
+                        </div>
+                        <div class="activity-time">6h ago</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon expire">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="activity-details">
+                            <h4>Membership Expiring</h4>
+                            <p>5 memberships expiring this week</p>
+                        </div>
+                        <div class="activity-time">1d ago</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Members Table -->
+            <div class="table-card">
+                <div class="table-header">
+                    <h3><i class="fas fa-users"></i> Recent Members</h3>
+                    <div class="table-actions">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Search members...">
+                        </div>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Member ID</th>
+                            <th>Name</th>
+                            <th>Join Date</th>
+                            <th>Membership</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if APPROVED_MEMBERS %}
+                            {% for member in APPROVED_MEMBERS[-5:]|reverse %}
+                            <tr>
+                                <td>{{ member.id }}</td>
+                                <td><strong>{{ member.first_name }} {{ member.last_name }}</strong></td>
+                                <td>{{ member.join_date }}</td>
+                                <td>{{ member.membership }}</td>
+                                <td>৳ {{ "{:,}".format(member.amount) }}</td>
+                                <td>
+                                    {% if member.status == 'active' %}
+                                        <span class="status-badge active">Active</span>
+                                    {% elif member.status == 'pending' %}
+                                        <span class="status-badge pending">Pending</span>
+                                    {% else %}
+                                        <span class="status-badge expired">Expired</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="action-btns">
+                                        <button class="action-btn edit" onclick="viewMember('{{ member.id }}')" title="View Details">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <a href="{{ url_for('edit_member', member_id=member.id) }}" class="action-btn edit" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;" title="Edit Member">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <button class="action-btn delete" onclick="deleteMember('{{ member.id }}', '{{ member.first_name }} {{ member.last_name }}')" title="Delete Member">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="7" style="text-align: center; padding: 40px; color: #999;">
+                                    <i class="fas fa-inbox" style="font-size: 48px; display: block; margin-bottom: 15px;"></i>
+                                    No members found
+                                </td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Mobile Toggle -->
+    <button class="mobile-toggle" id="mobileToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <script>
+        // Mobile sidebar toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const sidebar = document.getElementById('sidebar');
+
+        mobileToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+            const icon = this.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // Close sidebar when clicking outside
+        document.addEventListener('click', function(e) {
+            if (window.innerWidth <= 768) {
+                if (!e.target.closest('.sidebar') && !e.target.closest('.mobile-toggle')) {
+                    sidebar.classList.remove('active');
+                    mobileToggle.querySelector('i').classList.remove('fa-times');
+                    mobileToggle.querySelector('i').classList.add('fa-bars');
+                }
+            }
+        });
+
+        // Filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+    <script>
+        // View Member Modal
+        function viewMember(memberId) {
+            // Fetch member data
+            fetch(`/api/member/${memberId}`)
+                .then(response => response.json())
+                .then(member => {
+                    // Create modal
+                    const modal = document.createElement('div');
+                    modal.className = 'modal-overlay';
+                    modal.innerHTML = `
+                        <div class="modal-container" style="max-width: 600px;">
+                            <div class="modal-header">
+                                <h2><i class="fas fa-user"></i> Member Details</h2>
+                                <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="modal-body" style="padding: 30px;">
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                    <div>
+                                        <strong style="color: #666; font-size: 12px;">Member ID:</strong>
+                                        <p style="font-size: 16px; margin-top: 5px;">${member.id}</p>
+                                    </div>
+                                    <div>
+                                        <strong style="color: #666; font-size: 12px;">Name:</strong>
+                                        <p style="font-size: 16px; margin-top: 5px;">${member.first_name} ${member.last_name}</p>
+                                    </div>
+                                    <div>
+                                        <strong style="color: #666; font-size: 12px;">Email:</strong>
+                                        <p style="font-size: 16px; margin-top: 5px;">${member.email}</p>
+                                    </div>
+                                    <div>
+                                        <strong style="color: #666; font-size: 12px;">Phone:</strong>
+                                        <p style="font-size: 16px; margin-top: 5px;">${member.phone}</p>
+                                    </div>
+                                    <div>
+                                        <strong style="color: #666; font-size: 12px;">Membership:</strong>
+                                        <p style="font-size: 16px; margin-top: 5px;">${member.membership}</p>
+                                    </div>
+                                    <div>
+                                        <strong style="color: #666; font-size: 12px;">Amount Paid:</strong>
+                                        <p style="font-size: 16px; margin-top: 5px;">৳ ${member.amount.toLocaleString()}</p>
+                                    </div>
+                                    <div>
+                                        <strong style="color: #666; font-size: 12px;">Join Date:</strong>
+                                        <p style="font-size: 16px; margin-top: 5px;">${member.join_date}</p>
+                                    </div>
+                                    <div>
+                                        <strong style="color: #666; font-size: 12px;">Expiry Date:</strong>
+                                        <p style="font-size: 16px; margin-top: 5px;">${member.expiry_date}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer" style="padding: 20px 30px; border-top: 1px solid #f0f0f0; text-align: right;">
+                                <button onclick="this.closest('.modal-overlay').remove()" style="padding: 10px 25px; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    document.body.appendChild(modal);
+                })
+                .catch(error => {
+                    alert('Error loading member details');
+                    console.error(error);
+                });
+        }
+    
+        // Delete Member
+        function deleteMember(memberId, memberName) {
+            if (confirm(`Are you sure you want to delete ${memberName}?\n\nThis action cannot be undone.`)) {
+                window.location.href = `/delete-member/${memberId}`;
+            }
+        }
+    
+        // Add modal styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .modal-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.6);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 9999;
+                padding: 20px;
+                animation: fadeIn 0.3s;
+            }
+            
+            .modal-container {
+                background: white;
+                border-radius: 15px;
+                width: 100%;
+                max-height: 90vh;
+                overflow-y: auto;
+                animation: slideUp 0.3s;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            }
+            
+            .modal-header {
+                padding: 25px 30px;
+                border-bottom: 1px solid #f0f0f0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .modal-header h2 {
+                font-size: 22px;
+                color: #1e1e1e;
+                margin: 0;
+            }
+            
+            .modal-close {
+                width: 35px;
+                height: 35px;
+                border-radius: 50%;
+                background: #f5f6fa;
+                border: none;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 18px;
+                color: #666;
+                transition: all 0.3s;
+            }
+            
+            .modal-close:hover {
+                background: #ff4757;
+                color: white;
+            }
+            
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+            
+            @keyframes slideUp {
+                from { 
+                    transform: translateY(50px);
+                    opacity: 0;
+                }
+                to { 
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

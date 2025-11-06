@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GymFit Bangladesh - Transform Your Body</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    
+    <!-- Header Navigation -->
+    <header class="main-header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-dumbbell"></i>
+                    <span>GYM<strong>FIT</strong></span>
+                    <small>Bangladesh</small>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="#home" class="active">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#classes">Classes</a></li>
+                    <li><a href="#trainers">Trainers</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <a href="{{ url_for('register') }}" class="btn-register" style="background: transparent; border: 2px solid white; color: white; padding: 10px 20px; border-radius: 50px; margin-right: 10px; text-decoration: none; font-weight: 600;">
+                        <i class="fas fa-user-plus"></i> Register
+                    </a>
+                    <a href="{{ url_for('login') }}" class="btn-login">
+                        <i class="fas fa-user"></i> Login
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content">
+                <span class="hero-label">GET YOUR BODY</span>
+                <h1>FITNESS HERE</h1>
+                <p>Transform your body and mind at Bangladesh's premier fitness center.<br>
+                Expert trainers, modern equipment, and personalized programs.</p>
+                <div class="hero-buttons">
+                    <a href="{{ url_for('register') }}" class="btn btn-primary">
+                        <i class="fas fa-rocket"></i> JOIN NOW
+                    </a>
+                    <a href="#contact" class="btn btn-outline">
+                        <i class="fas fa-phone"></i> CONTACT US
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- Scroll Down Indicator -->
+        <div class="scroll-indicator">
+            <span>Scroll Down</span>
+            <i class="fas fa-arrow-down"></i>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">WHO WE ARE</span>
+                <h2>About GymFit Bangladesh</h2>
+                <div class="section-icon">
+                    <i class="fas fa-award"></i>
+                </div>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>GymFit Bangladesh is Dhaka's leading fitness center, offering world-class facilities and expert guidance to help you achieve your fitness goals. With over 5 years of experience, we've helped thousands transform their lives through fitness.</p>
+                    <div class="about-features">
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Certified Trainers</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Modern Equipment</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Flexible Timings</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Affordable Plans</span>
+                        </div>
+                    </div>
+                    <a href="#contact" class="btn btn-primary">READ MORE</a>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-box">
+                        <h3>500+</h3>
+                        <p>Active Members</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3>15+</h3>
+                        <p>Expert Trainers</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3>5+</h3>
+                        <p>Years Experience</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-section" id="services">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">WHAT WE OFFER</span>
+                <h2>Our Services</h2>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600" alt="Gym">
+                        <div class="service-overlay">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
+                    </div>
+                    <div class="service-info">
+                        <h3>Gym</h3>
+                        <p>State-of-the-art equipment for strength training and cardio</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=600" alt="CrossFit">
+                        <div class="service-overlay">
+                            <i class="fas fa-running"></i>
+                        </div>
+                    </div>
+                    <div class="service-info">
+                        <h3>CrossFit</h3>
+                        <p>High-intensity functional fitness workouts</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600" alt="Personal Training">
+                        <div class="service-overlay">
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                    </div>
+                    <div class="service-info">
+                        <h3>Personal Training</h3>
+                        <p>One-on-one training with certified professionals</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600" alt="Fitness">
+                        <div class="service-overlay">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                    </div>
+                    <div class="service-info">
+                        <h3>Fitness Classes</h3>
+                        <p>Group fitness sessions for all levels</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600" alt="Yoga">
+                        <div class="service-overlay">
+                            <i class="fas fa-spa"></i>
+                        </div>
+                    </div>
+                    <div class="service-info">
+                        <h3>Yoga</h3>
+                        <p>Mind and body wellness through yoga practice</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=600" alt="Nutrition">
+                        <div class="service-overlay">
+                            <i class="fas fa-apple-alt"></i>
+                        </div>
+                    </div>
+                    <div class="service-info">
+                        <h3>Nutrition Plan</h3>
+                        <p>Customized diet plans for your fitness goals</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="why-choose">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">WHY CHOOSE US</span>
+                <h2>Why GymFit Bangladesh</h2>
+            </div>
+            <div class="why-grid">
+                <div class="why-card">
+                    <div class="why-icon">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <h3>Quality Equipment</h3>
+                    <p>Imported gym equipment from leading brands for safe and effective workouts</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <h3>Healthy Nutrition Plan</h3>
+                    <p>Expert nutritionists to guide your meal planning and diet management</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Shower Service</h3>
+                    <p>Clean and modern shower facilities with locker amenities</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">
+                        <i class="fas fa-tag"></i>
+                    </div>
+                    <h3>Unique to Your Needs</h3>
+                    <p>Personalized fitness programs designed specifically for your goals</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Classes Section -->
+    <section class="classes-section" id="classes">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">POPULAR CLASSES</span>
+                <h2>Explore Our Fitness Classes</h2>
+            </div>
+            <div class="classes-grid">
+                <div class="class-card">
+                    <div class="class-image">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500" alt="Bodybuilding">
+                        <span class="class-badge">BODYBUILDING</span>
+                    </div>
+                    <div class="class-details">
+                        <div class="class-info-row">
+                            <span><i class="far fa-clock"></i> 6:00 AM - 10:00 PM</span>
+                            <span><i class="fas fa-fire"></i> 500 Calories</span>
+                        </div>
+                        <h3>Muscle Building Program</h3>
+                        <div class="class-trainer">
+                            <img src="https://i.pravatar.cc/150?img=12" alt="Trainer">
+                            <div>
+                                <strong>Rahim Uddin</strong>
+                                <span>Senior Trainer</span>
+                            </div>
+                            <a href="{{ url_for('register') }}" class="btn-join">JOIN NOW</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="class-card">
+                    <div class="class-image">
+                        <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=500" alt="Yoga">
+                        <span class="class-badge">YOGA</span>
+                    </div>
+                    <div class="class-details">
+                        <div class="class-info-row">
+                            <span><i class="far fa-clock"></i> 7:00 AM - 9:00 AM</span>
+                            <span><i class="fas fa-fire"></i> 200 Calories</span>
+                        </div>
+                        <h3>Morning Yoga Session</h3>
+                        <div class="class-trainer">
+                            <img src="https://i.pravatar.cc/150?img=45" alt="Trainer">
+                            <div>
+                                <strong>Fatema Khatun</strong>
+                                <span>Yoga Instructor</span>
+                            </div>
+                            <a href="{{ url_for('register') }}" class="btn-join">JOIN NOW</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="class-card">
+                    <div class="class-image">
+                        <img src="https://images.unsplash.com/photo-1558611848-73f7eb4001a1?w=500" alt="Cardio">
+                        <span class="class-badge">CARDIO</span>
+                    </div>
+                    <div class="class-details">
+                        <div class="class-info-row">
+                            <span><i class="far fa-clock"></i> 5:00 PM - 8:00 PM</span>
+                            <span><i class="fas fa-fire"></i> 600 Calories</span>
+                        </div>
+                        <h3>High Intensity Training</h3>
+                        <div class="class-trainer">
+                            <img src="https://i.pravatar.cc/150?img=33" alt="Trainer">
+                            <div>
+                                <strong>Karim Ahmed</strong>
+                                <span>Cardio Specialist</span>
+                            </div>
+                            <a href="{{ url_for('register') }}" class="btn-join">JOIN NOW</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trainers Section -->
+    <section class="trainers-section" id="trainers">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">OUR EXPERT TRAINERS</span>
+                <h2>Meet Our Professional Team</h2>
+            </div>
+            <div class="trainers-grid">
+                <div class="trainer-card">
+                    <div class="trainer-image">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400" alt="Trainer 1">
+                        <div class="trainer-social">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                    <div class="trainer-info">
+                        <h3>Rahim Uddin</h3>
+                        <span>Bodybuilding Expert</span>
+                        <p>10+ years experience in strength training and bodybuilding</p>
+                    </div>
+                </div>
+                <div class="trainer-card">
+                    <div class="trainer-image">
+                        <img src="https://images.unsplash.com/photo-1594381898411-846e7d193883?w=400" alt="Trainer 2">
+                        <div class="trainer-social">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                    <div class="trainer-info">
+                        <h3>Fatema Khatun</h3>
+                        <span>Yoga & Wellness Coach</span>
+                        <p>Certified yoga instructor specializing in mind-body wellness</p>
+                    </div>
+                </div>
+                <div class="trainer-card">
+                    <div class="trainer-image">
+                        <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=400" alt="Trainer 3">
+                        <div class="trainer-social">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                    <div class="trainer-info">
+                        <h3>Karim Ahmed</h3>
+                        <span>Cardio & HIIT Trainer</span>
+                        <p>Expert in high-intensity interval training and fat loss</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">TESTIMONIALS</span>
+                <h2>What Our Members Say</h2>
+            </div>
+            <div class="testimonial-slider">
+                <div class="testimonial-card active">
+                    <div class="testimonial-image">
+                        <img src="https://i.pravatar.cc/150?img=15" alt="Member">
+                    </div>
+                    <div class="testimonial-content">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p>"GymFit Bangladesh changed my life! I lost 15kg in 3 months with their amazing trainers and personalized diet plan. Best gym in Dhaka!"</p>
+                        <h4>Sakib Rahman</h4>
+                        <span>Software Engineer</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing-section" id="pricing">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">PRICING PLANS</span>
+                <h2>Choose Your Membership Plan</h2>
+                <p>Affordable packages designed for everyone</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>BASIC</h3>
+                        <div class="price">
+                            <span class="currency">৳</span>
+                            <span class="amount">2,500</span>
+                            <span class="period">/month</span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Gym Access (6 AM - 10 PM)</li>
+                        <li><i class="fas fa-check"></i> Basic Equipment</li>
+                        <li><i class="fas fa-check"></i> Locker Facility</li>
+                        <li><i class="fas fa-check"></i> Free Consultation</li>
+                        <li class="disabled"><i class="fas fa-times"></i> Personal Trainer</li>
+                        <li class="disabled"><i class="fas fa-times"></i> Nutrition Plan</li>
+                    </ul>
+                    <a href="{{ url_for('register') }}" class="btn-pricing">ENROLL NOW</a>
+                </div>
+                <div class="pricing-card featured">
+                    <div class="featured-badge">MOST POPULAR</div>
+                    <div class="pricing-header">
+                        <h3>STANDARD</h3>
+                        <div class="price">
+                            <span class="currency">৳</span>
+                            <span class="amount">4,500</span>
+                            <span class="period">/month</span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> 24/7 Gym Access</li>
+                        <li><i class="fas fa-check"></i> All Equipment Access</li>
+                        <li><i class="fas fa-check"></i> Locker & Shower</li>
+                        <li><i class="fas fa-check"></i> Group Classes</li>
+                        <li><i class="fas fa-check"></i> 2 PT Sessions/Month</li>
+                        <li><i class="fas fa-check"></i> Basic Nutrition Plan</li>
+                    </ul>
+                    <a href="{{ url_for('register') }}" class="btn-pricing">ENROLL NOW</a>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>PREMIUM</h3>
+                        <div class="price">
+                            <span class="currency">৳</span>
+                            <span class="amount">7,500</span>
+                            <span class="period">/month</span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> 24/7 VIP Access</li>
+                        <li><i class="fas fa-check"></i> Premium Equipment</li>
+                        <li><i class="fas fa-check"></i> Private Locker</li>
+                        <li><i class="fas fa-check"></i> Unlimited Classes</li>
+                        <li><i class="fas fa-check"></i> Personal Trainer (8 sessions)</li>
+                        <li><i class="fas fa-check"></i> Custom Nutrition Plan</li>
+                    </ul>
+                    <a href="{{ url_for('register') }}" class="btn-pricing">ENROLL NOW</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-overlay"></div>
+        <div class="container">
+            <div class="cta-content">
+                <h2>READY TO START YOUR FITNESS JOURNEY?</h2>
+                <p>Join GymFit Bangladesh today and transform your life with expert guidance</p>
+                <a href="{{ url_for('register') }}" class="btn btn-primary btn-large">
+                    <i class="fas fa-rocket"></i> GET STARTED NOW
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">GET IN TOUCH</span>
+                <h2>Contact Us</h2>
+            </div>
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <h3>GymFit Bangladesh</h3>
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <strong>Address:</strong>
+                            <p>House 45, Road 12, Dhanmondi, Dhaka-1209</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <strong>Phone:</strong>
+                            <p>+880 1711-123456</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <strong>Email:</strong>
+                            <p>info@gymfitbd.com</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <strong>Opening Hours:</strong>
+                            <p>Saturday - Thursday: 6:00 AM - 10:00 PM<br>Friday: 8:00 AM - 8:00 PM</p>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form>
+                        <div class="form-row">
+                            <input type="text" placeholder="Your Name" required>
+                            <input type="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-row">
+                            <input type="tel" placeholder="Your Phone" required>
+                            <input type="text" placeholder="Subject">
+                        </div>
+                        <textarea placeholder="Your Message" rows="5" required></textarea>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> SEND MESSAGE
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <!-- Google Map -->
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3652.0940403857567!2d90.37424931498209!3d23.74603508458976!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b8b087026b81%3A0x8fa563bbdd5904c2!2sDhanmondi%2C%20Dhaka!5e0!3m2!1sen!2sbd!4v1635000000000!5m2!1sen!2sbd" 
+                        width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <div class="newsletter-text">
+                    <h3><i class="fas fa-envelope"></i> SUBSCRIBE TO OUR NEWSLETTER</h3>
+                    <p>Get the latest fitness tips, workout plans, and exclusive offers</p>
+                </div>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter your email address" required>
+                    <button type="submit" class="btn btn-primary">SUBSCRIBE</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <i class="fas fa-dumbbell"></i>
+                        <span>GYM<strong>FIT</strong></span>
+                    </div>
+                    <p>Transform your body and mind at Bangladesh's premier fitness center with expert trainers and world-class facilities.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#classes">Classes</a></li>
+                        <li><a href="#trainers">Trainers</a></li>
+                        <li><a href="{{ url_for('login') }}">Member Login</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Our Services</h4>
+                    <ul>
+                        <li><a href="#">Gym Training</a></li>
+                        <li><a href="#">Personal Training</a></li>
+                        <li><a href="#">Group Classes</a></li>
+                        <li><a href="#">Yoga & Meditation</a></li>
+                        <li><a href="#">Nutrition Planning</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Info</h4>
+                    <ul class="contact-list">
+                        <li><i class="fas fa-map-marker-alt"></i> Dhanmondi, Dhaka</li>
+                        <li><i class="fas fa-phone"></i> +880 1711-123456</li>
+                        <li><i class="fas fa-envelope"></i> info@gymfitbd.com</li>
+                        <li><i class="fas fa-clock"></i> Sat-Thu: 6 AM - 10 PM</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; {{ year }} GymFit Bangladesh. All Rights Reserved | Developed by <strong>Al Shahriar</strong></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - GymFit Bangladesh</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .register-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+        }
+
+        .register-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .register-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px;
+            text-align: center;
+            color: white;
+        }
+
+        .register-header i {
+            font-size: 56px;
+            margin-bottom: 20px;
+        }
+
+        .register-header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .register-header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .register-body {
+            padding: 40px;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .form-group label .required {
+            color: #ff4757;
+            margin-left: 3px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .membership-plans {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .plan-option {
+            position: relative;
+        }
+
+        .plan-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .plan-label {
+            display: block;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .plan-option input[type="radio"]:checked + .plan-label {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .plan-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1e1e1e;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .plan-price {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .plan-duration {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .terms-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .terms-checkbox input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+        }
+
+        .terms-checkbox label {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .terms-checkbox a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .terms-checkbox a:hover {
+            text-decoration: underline;
+        }
+
+        .register-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .register-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .register-footer {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .register-footer p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .register-footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .register-footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .form-row,
+            .membership-plans {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="register-page">
+    <div class="register-container">
+        <div class="register-header">
+            <i class="fas fa-dumbbell"></i>
+            <h1>Join GymFit Bangladesh</h1>
+            <p>Start your fitness journey today!</p>
+        </div>
+
+        <div class="register-body">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            <i class="fas fa-{{ 'check-circle' if category == 'success' else 'exclamation-circle' }}"></i>
+                            <span>{{ message }}</span>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="{{ url_for('register') }}" id="registerForm">
+                <h3 style="color: #1e1e1e; margin-bottom: 20px; font-size: 18px;">
+                    <i class="fas fa-user"></i> Personal Information
+                </h3>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name <span class="required">*</span></label>
+                        <input type="text" id="firstName" name="firstName" placeholder="Enter first name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name <span class="required">*</span></label>
+                        <input type="text" id="lastName" name="lastName" placeholder="Enter last name" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email Address <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number <span class="required">*</span></label>
+                        <input type="tel" id="phone" name="phone" placeholder="+880 1XXX-XXXXXX" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="dob">Date of Birth <span class="required">*</span></label>
+                        <input type="date" id="dob" name="dob" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Gender <span class="required">*</span></label>
+                        <select id="gender" name="gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="address">Address</label>
+                    <textarea id="address" name="address" rows="2" placeholder="Enter your full address"></textarea>
+                </div>
+
+                <h3 style="color: #1e1e1e; margin: 30px 0 20px; font-size: 18px;">
+                    <i class="fas fa-credit-card"></i> Choose Your Membership Plan
+                </h3>
+
+                <div class="membership-plans">
+                    <div class="plan-option">
+                        <input type="radio" id="basic" name="membership" value="basic" required>
+                        <label for="basic" class="plan-label">
+                            <span class="plan-name">BASIC</span>
+                            <span class="plan-price">৳2,500</span>
+                            <span class="plan-duration">per month</span>
+                        </label>
+                    </div>
+                    <div class="plan-option">
+                        <input type="radio" id="standard" name="membership" value="standard">
+                        <label for="standard" class="plan-label">
+                            <span class="plan-name">STANDARD</span>
+                            <span class="plan-price">৳4,500</span>
+                            <span class="plan-duration">per month</span>
+                        </label>
+                    </div>
+                    <div class="plan-option">
+                        <input type="radio" id="premium" name="membership" value="premium">
+                        <label for="premium" class="plan-label">
+                            <span class="plan-name">PREMIUM</span>
+                            <span class="plan-price">৳7,500</span>
+                            <span class="plan-duration">per month</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="terms-checkbox">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">
+                        I agree to the <a href="#" target="_blank">Terms & Conditions</a> and 
+                        <a href="#" target="_blank">Privacy Policy</a> of GymFit Bangladesh
+                    </label>
+                </div>
+
+                <button type="submit" class="register-btn">
+                    <i class="fas fa-check-circle"></i> COMPLETE REGISTRATION
+                </button>
+            </form>
+
+            <div class="register-footer">
+                <p>Already have an account? <a href="{{ url_for('login') }}">Login Here</a></p>
+                <p style="margin-top: 10px;"><a href="{{ url_for('index') }}"><i class="fas fa-arrow-left"></i> Back to Home</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Form validation
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            const phone = document.getElementById('phone').value;
+            const phoneRegex = /^(\+880|880)?[1-9]\d{9}$/;
+            
+            if (!phoneRegex.test(phone.replace(/[\s-]/g, ''))) {
+                e.preventDefault();
+                alert('Please enter a valid Bangladesh phone number');
+                return false;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trainers - GymFit Bangladesh</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reuse dashboard styles */
+        .dashboard-wrapper {
+            display: flex;
+            min-height: 100vh;
+            background: #f5f6fa;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .sidebar-logo {
+            padding: 25px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-logo i {
+            font-size: 32px;
+            color: #FFA502;
+        }
+
+        .sidebar-logo span {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .sidebar-logo strong {
+            color: #FFA502;
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .menu-section {
+            margin-bottom: 30px;
+        }
+
+        .menu-title {
+            padding: 0 20px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            opacity: 0.6;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 14px 20px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+
+        .sidebar-menu a.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: #FFA502;
+        }
+
+        .sidebar-menu a i {
+            font-size: 18px;
+            width: 20px;
+        }
+
+        .sidebar-footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #FFA502;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .user-info h4 {
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+
+        .user-info span {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 30px;
+        }
+
+        .topbar {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .topbar-left h1 {
+            font-size: 28px;
+            color: #1e1e1e;
+            margin-bottom: 5px;
+        }
+
+        .topbar-left p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .topbar-right {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        /* Trainers Specific Styles */
+        .trainers-header {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .add-trainer-btn {
+            background: linear-gradient(135deg, #00d2d3, #00a8a9);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .add-trainer-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 210, 211, 0.3);
+        }
+
+        .trainers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .trainer-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+
+        .trainer-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .trainer-card-header {
+            position: relative;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+
+        .trainer-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: white;
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid white;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .trainer-status {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.9);
+            color: #4caf50;
+        }
+
+        .trainer-status.inactive {
+            color: #f44336;
+        }
+
+        .trainer-card-body {
+            padding: 70px 25px 25px;
+            text-align: center;
+        }
+
+        .trainer-name {
+            font-size: 20px;
+            color: #1e1e1e;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .trainer-specialty {
+            font-size: 14px;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .trainer-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+            padding: 20px 0;
+            border-top: 1px solid #f0f0f0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1e1e1e;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .trainer-contact {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .contact-item i {
+            width: 20px;
+            color: #667eea;
+        }
+
+        .trainer-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .trainer-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .trainer-btn.view {
+            background: #e3f2fd;
+            color: #2196f3;
+        }
+
+        .trainer-btn.edit {
+            background: #e8f5e9;
+            color: #4caf50;
+        }
+
+        .trainer-btn.delete {
+            background: #ffebee;
+            color: #f44336;
+        }
+
+        .trainer-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 25px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 22px;
+            color: #1e1e1e;
+        }
+
+        .modal-close {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #f5f6fa;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: #ff4757;
+            color: white;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .modal-footer {
+            padding: 20px 25px;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+
+        .btn-cancel {
+            padding: 12px 25px;
+            background: #f5f6fa;
+            color: #666;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-cancel:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-save {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Mobile Toggle */
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                left: -260px;
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .mobile-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .trainers-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .trainers-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <i class="fas fa-dumbbell"></i>
+                <span>GYM<strong>FIT</strong></span>
+            </div>
+
+            <nav class="sidebar-menu">
+                <div class="menu-section">
+                    <div class="menu-title">MAIN MENU</div>
+                    <a href="{{ url_for('dashboard') }}">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="{{ url_for('members') }}">
+                        <i class="fas fa-users"></i>
+                        <span>Members</span>
+                    </a>
+                    <a href="{{ url_for('trainers') }}" class="active">
+                        <i class="fas fa-user-tie"></i>
+                        <span>Trainers</span>
+                    </a>
+                    <a href="{{ url_for('classes') }}">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Classes</span>
+                    </a>
+                </div>
+
+                <div class="menu-section">
+                    <div class="menu-title">MANAGEMENT</div>
+                    <a href="#">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Payments</span>
+                    </a>
+                    <a href="#">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Reports</span>
+                    </a>
+                    <a href="#">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="user-avatar">M</div>
+                    <div class="user-info">
+                        <h4>msishakibsk</h4>
+                        <span>Administrator</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <h1>Trainers Management</h1>
+                    <p>Manage all gym trainers, specialties, and assignments</p>
+                </div>
+                <div class="topbar-right">
+                    <a href="{{ url_for('logout') }}" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </a>
+                </div>
+            </div>
+
+            <!-- Trainers Header -->
+            <div class="trainers-header">
+                <div>
+                    <h2 style="font-size: 20px; color: #1e1e1e; margin-bottom: 5px;">
+                        <i class="fas fa-user-tie"></i> All Trainers
+                    </h2>
+                    <p style="font-size: 14px; color: #666;">Total: 18 Trainers (16 Active, 2 Inactive)</p>
+                </div>
+                <button class="add-trainer-btn" id="addTrainerBtn">
+                    <i class="fas fa-plus"></i>
+                    Add New Trainer
+                </button>
+            </div>
+
+            <!-- Trainers Grid -->
+            <div class="trainers-grid">
+                <!-- Trainer Card 1 -->
+                <div class="trainer-card">
+                    <div class="trainer-card-header">
+                        <span class="trainer-status">Active</span>
+                        <div class="trainer-image">RU</div>
+                    </div>
+                    <div class="trainer-card-body">
+                        <h3 class="trainer-name">Rahim Uddin</h3>
+                        <p class="trainer-specialty">Bodybuilding Expert</p>
+                        
+                        <div class="trainer-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">45</span>
+                                <span class="stat-label">Members</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">8</span>
+                                <span class="stat-label">Classes</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">4.9</span>
+                                <span class="stat-label">Rating</span>
+                            </div>
+                        </div>
+                        
+                        <div class="trainer-contact">
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <span>+880 1711-234567</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span>rahim@gymfitbd.com</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-briefcase"></i>
+                                <span>10 Years Experience</span>
+                            </div>
+                        </div>
+                        
+                        <div class="trainer-actions">
+                            <button class="trainer-btn view">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            <button class="trainer-btn edit">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="trainer-btn delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trainer Card 2 -->
+                <div class="trainer-card">
+                    <div class="trainer-card-header">
+                        <span class="trainer-status">Active</span>
+                        <div class="trainer-image">FK</div>
+                    </div>
+                    <div class="trainer-card-body">
+                        <h3 class="trainer-name">Fatema Khatun</h3>
+                        <p class="trainer-specialty">Yoga & Wellness Coach</p>
+                        
+                        <div class="trainer-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">38</span>
+                                <span class="stat-label">Members</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">6</span>
+                                <span class="stat-label">Classes</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">5.0</span>
+                                <span class="stat-label">Rating</span>
+                            </div>
+                        </div>
+                        
+                        <div class="trainer-contact">
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <span>+880 1712-345678</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span>fatema@gymfitbd.com</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-briefcase"></i>
+                                <span>8 Years Experience</span>
+                            </div>
+                        </div>
+                        
+                        <div class="trainer-actions">
+                            <button class="trainer-btn view">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            <button class="trainer-btn edit">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="trainer-btn delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trainer Card 3 -->
+                <div class="trainer-card">
+                    <div class="trainer-card-header">
+                        <span class="trainer-status">Active</span>
+                        <div class="trainer-image">KA</div>
+                    </div>
+                    <div class="trainer-card-body">
+                        <h3 class="trainer-name">Karim Ahmed</h3>
+                        <p class="trainer-specialty">Cardio & HIIT Specialist</p>
+                        
+                        <div class="trainer-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">52</span>
+                                <span class="stat-label">Members</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">10</span>
+                                <span class="stat-label">Classes</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">4.8</span>
+                                <span class="stat-label">Rating</span>
+                            </div>
+                        </div>
+                        
+                        <div class="trainer-contact">
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <span>+880 1713-456789</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span>karim@gymfitbd.com</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-briefcase"></i>
+                                <span>12 Years Experience</span>
+                            </div>
+                        </div>
+                        
+                        <div class="trainer-actions">
+                            <button class="trainer-btn view">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            <button class="trainer-btn edit">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="trainer-btn delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trainer Card 4 -->
+                <div class="trainer-card">
+                    <div class="trainer-card-header">
+                        <span class="trainer-status">Active</span>
+                        <div class="trainer-image">SH</div>
+                    </div>
+                    <div class="trainer-card-body">
+                        <h3 class="trainer-name">Sadia Hossain</h3>
+                        <p class="trainer-specialty">Zumba & Dance Fitness</p>
+                        
+                        <div class="trainer-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">42</span>
+                                <span class="stat-label">Members</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">7</span>
+                                <span class="stat-label">Classes</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">4.9</span>
+                                <span class="stat-label">Rating</span>
+                            </div>
+                        </div>
+                        
+                        <div class="trainer-contact">
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <span>+880 1714-567890</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span>sadia@gymfitbd.com</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-briefcase"></i>
+                                <span>6 Years Experience</span>
+                            </div>
+                        </div>
+                        
+                        <div class="trainer-actions">
+                            <button class="trainer-btn view">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            <button class="trainer-btn edit">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="trainer-btn delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trainer Card 5 -->
+                <div class="trainer-card">
+                    <div class="trainer-card-header">
+                        <span class="trainer-status">Active</span>
+                        <div class="trainer-image">TR</div>
+                    </div>
+                    <div class="trainer-card-body">
+                        <h3 class="trainer-name">Tanvir Rahman</h3>
+                        <p class="trainer-specialty">CrossFit Trainer</p>
+                        
+                        <div class="trainer-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">35</span>
+                                <span class="stat-label">Members</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">5</span>
+                                <span class="stat-label">Classes</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">4.7</span>
+                                <span class="stat-label">Rating</span>
+                            </div>
+                        </div>
+                        
+                        <div class="trainer-contact">
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <span>+880 1715-678901</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span>tanvir@gymfitbd.com</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-briefcase"></i>
+                                <span>7 Years Experience</span>
+                            </div>
+                        </div>
+                        
+                        <div class="trainer-actions">
+                            <button class="trainer-btn view">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            <button class="trainer-btn edit">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="trainer-btn delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trainer Card 6 -->
+                <div class="trainer-card">
+                    <div class="trainer-card-header">
+                        <span class="trainer-status inactive">Inactive</span>
+                        <div class="trainer-image">NA</div>
+                    </div>
+                    <div class="trainer-card-body">
+                        <h3 class="trainer-name">Nazia Akter</h3>
+                        <p class="trainer-specialty">Nutrition Specialist</p>
+                        
+                        <div class="trainer-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">28</span>
+                                <span class="stat-label">Members</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">4</span>
+                                <span class="stat-label">Classes</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">4.6</span>
+                                <span class="stat-label">Rating</span>
+                            </div>
+                        </div>
+                        
+                        <div class="trainer-contact">
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <span>+880 1716-789012</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span>nazia@gymfitbd.com</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-briefcase"></i>
+                                <span>5 Years Experience</span>
+                            </div>
+                        </div>
+                        
+                        <div class="trainer-actions">
+                            <button class="trainer-btn view">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            <button class="trainer-btn edit">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="trainer-btn delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Trainer Modal -->
+    <div class="modal" id="addTrainerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-plus"></i> Add New Trainer</h2>
+                <button class="modal-close" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addTrainerForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="firstName">First Name *</label>
+                            <input type="text" id="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name *</label>
+                            <input type="text" id="lastName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="specialty">Specialty *</label>
+                            <select id="specialty" required>
+                                <option value="">Select Specialty</option>
+                                <option value="bodybuilding">Bodybuilding</option>
+                                <option value="yoga">Yoga & Wellness</option>
+                                <option value="cardio">Cardio & HIIT</option>
+                                <option value="crossfit">CrossFit</option>
+                                <option value="zumba">Zumba & Dance</option>
+                                <option value="nutrition">Nutrition</option>
+                                <option value="personal">Personal Training</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="experience">Years of Experience *</label>
+                            <input type="number" id="experience" min="0" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="certifications">Certifications</label>
+                            <textarea id="certifications" rows="2" placeholder="e.g., NASM CPT, ACE Fitness, ISSA..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="joinDate">Join Date *</label>
+                            <input type="date" id="joinDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="salary">Monthly Salary (৳) *</label>
+                            <input type="number" id="salary" placeholder="৳" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="bio">Short Bio</label>
+                            <textarea id="bio" rows="3" placeholder="Brief description about the trainer..."></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" id="cancelBtn">Cancel</button>
+                <button class="btn-save" id="saveBtn">Add Trainer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Toggle -->
+    <button class="mobile-toggle" id="mobileToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <script>
+        // Mobile sidebar toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const sidebar = document.getElementById('sidebar');
+
+        mobileToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+            const icon = this.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // Modal controls
+        const addTrainerBtn = document.getElementById('addTrainerBtn');
+        const addTrainerModal = document.getElementById('addTrainerModal');
+        const closeModal = document.getElementById('closeModal');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const saveBtn = document.getElementById('saveBtn');
+
+        addTrainerBtn.addEventListener('click', () => {
+            addTrainerModal.classList.add('active');
+        });
+
+        closeModal.addEventListener('click', () => {
+            addTrainerModal.classList.remove('active');
+        });
+
+        cancelBtn.addEventListener('click', () => {
+            addTrainerModal.classList.remove('active');
+        });
+
+        saveBtn.addEventListener('click', () => {
+            alert('Trainer added successfully!');
+            addTrainerModal.classList.remove('active');
+        });
+
+        // Delete confirmation
+        document.querySelectorAll('.trainer-btn.delete').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to delete this trainer?')) {
+                    alert('Trainer deleted successfully!');
+                }
+            });
+        });
+
+        // View trainer
+        document.querySelectorAll('.trainer-btn.view').forEach(btn => {
+            btn.addEventListener('click', function() {
+                alert('View trainer details (functionality to be implemented)');
+            });
+        });
+
+        // Edit trainer
+        document.querySelectorAll('.trainer-btn.edit').forEach(btn => {
+            btn.addEventListener('click', function() {
+                addTrainerModal.classList.add('active');
+                document.querySelector('.modal-header h2').innerHTML = '<i class="fas fa-edit"></i> Edit Trainer';
+            });
+        });
+    </script>
+</body>
+</html>
