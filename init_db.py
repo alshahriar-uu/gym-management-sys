@@ -44,8 +44,11 @@ def init_database():
             print(f"✓ Admin account created successfully!")
             print(f"  Username: {Config.ADMIN_USERNAME}")
             print(f"  Email: {Config.ADMIN_EMAIL}")
+            # NOTE: Password displayed only during initial setup for admin access
+            # This should only be run in a secure environment during installation
             print(f"  Password: {Config.ADMIN_PASSWORD}")
             print(f"  Role: admin")
+            print(f"\n⚠️  IMPORTANT: Please change this password after first login!")
         
         print("\n✓ Database initialization complete!")
 

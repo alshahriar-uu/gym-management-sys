@@ -267,6 +267,7 @@
             {% endwith %}
 
             <form method="POST" action="{{ url_for('register') }}" id="registerForm">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <h3 style="color: #1e1e1e; margin-bottom: 20px; font-size: 18px;">
                     <i class="fas fa-user"></i> Personal Information
                 </h3>
